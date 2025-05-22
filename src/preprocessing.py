@@ -1,4 +1,4 @@
-def get_evaluated_nodes(phenotype, evaluation = True):
+def get_evaluated_nodes(phenotype, evaluation=True):
     result_list = []
     for node in phenotype:
         if node[0] == "+" and evaluation:

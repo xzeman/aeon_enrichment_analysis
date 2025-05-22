@@ -4,11 +4,27 @@ class EnrichmentBehaviourClass:
         self.attractor_types = list()
 
     def attractor_types(self):
-        return self.attractors_types
+        return self.attractor_types
 
     def add_attractor(self, attractor):
         self.attractors.append(attractor)
         self.attractor_types.append(attractor.attractor_type)
+
+    def goterm_intersection(self):
+        intersect = self.attractors[0].go_terms_set
+        for attractor in self.attractors[1:]:
+            intersect = intersect.intersection(attractor.go_terms_set)
+        return intersect
+
+    def goterm_unique(self):
+        unique = []
+        for attractor in self.attractors:
+            unique_set = attractor.go_terms_set
+            for attractor2 in self.attractors:
+                if attractor == attractor2: continue
+                unique_set = unique_set.difference(attractor2.go_terms_set)
+            unique.append(unique_set)
+        return unique
 
 
 class EnrichmentAttractor:
