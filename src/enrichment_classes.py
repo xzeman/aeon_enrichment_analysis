@@ -1,16 +1,3 @@
-class EnrichmentResult:
-    def __init__(self, enrichmentData):
-        self.data = enrichmentData
-
-        self.input = self.data["results"]["input_list"]
-        self.organism = self.input["organism"]
-        self.mapped_ids = self.input["mapped_ids"]
-        self.mapped_count = self.input["mapped_count"]
-        self.unmapped_ids = self.input["unmapped_ids"]
-        self.unmapped_count = self.input["unmapped_count"]
-        self.result = self.data["results"]["result"]  # Sorted by FDR
-
-
 class EnrichmentBehaviourClass:
     def __init__(self, ) -> None:
         self.attractors = list()
