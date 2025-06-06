@@ -1,6 +1,3 @@
-import requests
-
-
 class EnrichmentResult:
     def __init__(self, enrichmentData):
         self.data = enrichmentData

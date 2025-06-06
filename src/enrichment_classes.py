@@ -3,9 +3,6 @@ class EnrichmentBehaviourClass:
         self.attractors = list()
         self.attractor_types = list()
 
-    def attractor_types(self):
-        return self.attractor_types
-
     def add_attractor(self, attractor):
         self.attractors.append(attractor)
         self.attractor_types.append(attractor.attractor_type)
@@ -26,6 +23,18 @@ class EnrichmentBehaviourClass:
             unique.append(unique_set)
         return unique
 
+    def __str__(self):
+        result = "Behaviour class \n"
+        for attractor in self.attractors:
+            result += " |-- " + str(attractor) + "\n"
+        return result
+
+    def __repr__(self):
+        result = "Behaviour class \n"
+        for attractor in self.attractors:
+            result += " |-- " + str(attractor) + "\n"
+        return result
+
 
 class EnrichmentAttractor:
     def __init__(self, attractor_type, enrichment_result, fdr) -> None:
@@ -33,6 +42,12 @@ class EnrichmentAttractor:
         self.attractor_type = attractor_type
         self.goterms = dict()
         self.go_terms_set = set()
+
+        if enrichment_result is None:
+            self.mapped_ids = []
+            self.unmapped_ids = []
+            return
+
         self.mapped_ids = enrichment_result.mapped_ids
         self.unmapped_ids = enrichment_result.unmapped_ids
 
@@ -49,17 +64,22 @@ class EnrichmentAttractor:
         return self.goterms
 
     def get_plus_goterms(self):
-        return [goterm for goterm in self.goterms if goterm.plus_minus == "+"]
+        return [goterm for goterm in self.goterms.values() if goterm.plus_minus == "+"]
 
     def get_minus_goterms(self):
-        return [goterm for goterm in self.goterms if goterm.plus_minus == "-"]
+        return [goterm for goterm in self.goterms.values() if goterm.plus_minus == "-"]
+
+    def __str__(self):
+        return f"{self.attractor_type}"
+
+    def __repr__(self):
+        return f"{self.attractor_type}"
 
 
 class EnrichmentGOterm:
     def __init__(self, process) -> None:
         self.go_id = process.get("term", {}).get("id", "")
         self.process_name = process["term"]["label"]
-
         self.fold_enrichment = process["fold_enrichment"]
         self.fdr = process["fdr"]
         self.expected = process["expected"]
@@ -72,4 +92,3 @@ class EnrichmentGOterm:
 
     def __str__(self):
         return f"{self.plus_minus}{self.process_name}"
-
